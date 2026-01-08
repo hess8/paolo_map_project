@@ -8,14 +8,12 @@ from .serializers import (
 )
 
 class MarkersMapView(TemplateView):
-    template_name = "index.html"
+    template_name = "map.html"
 
 class MarkerViewSet(
     viewsets.ReadOnlyModelViewSet
 ):
     bbox_filter_field = "location"
-    filter_backends = (
-        filters.InBBoxFilter,
-    )
+    filter_backends = (filters.InBBoxFilter,)
     queryset = Marker.objects.all()
     serializer_class = MarkerSerializer

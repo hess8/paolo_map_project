@@ -12,6 +12,7 @@ djangorestframework = "*"
 psycopg2-binary = "*"
 django-leaflet = "*"
 djangorestframework-stubs = "*"
+black = "*"
 
 [dev-packages]
 

@@ -6,7 +6,8 @@ from .viewsets import (
 
 router = routers.DefaultRouter()
 router.register(
-    r"locations", MarkerViewSet
+    # r"locations", MarkerViewSet,
+    r"markers", MarkerViewSet
 )
 
 urlpatterns = router.urls
