@@ -1,8 +1,16 @@
 const href = "https://www.openstreetmap.org/copyright";
 const link = `© <a href='${href}'>OpenStreetMap</a>`;
+
 const tiles = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
 const layer = L.tileLayer(tiles, { attribution: link });
-const map = L.map("map", { layers: [layer] });
+//const layer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
+//	attribution: 'Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012'
+//});
+
+//const layer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Outdoor/MapServer/tile/{z}/{y}/{x}', {
+//	attribution: 'Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012'
+//});
+const map = L.map("map", { layers: [layer], preferCanvas: true});
 //map.fitWorld();
 
 // locate user
