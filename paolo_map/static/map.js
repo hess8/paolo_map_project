@@ -13,6 +13,7 @@ const layer = L.tileLayer(tiles, { attribution: link });
 const map = L.map("map", { layers: [layer], preferCanvas: true});
 //map.fitWorld();
 
+
 // locate user
 map
   .locate()
