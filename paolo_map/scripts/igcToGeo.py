@@ -21,11 +21,11 @@ def igcToGeoJSON(igc_path,saveDir):
             "score": 350
         }
     )
-    writeJSON(igc_path.replace('.igc','json'),feature)
+    writeJSON(igc_path.replace('igcs','geoJSON').replace('.igc','.json'),feature)
     # Wrap the feature in a FeatureCollection
     # feature_collection = FeatureCollection([feature])
 
-igc_path = '/home/bret/soardata/soardataApp/lib/igcs/wg_582753.igc'
+igc_path = '/home/bret/soardata/soardataApp/lib/igcs/wg_935824.igc'
 saveDir = '/home/bret/soardata/soardataApp/lib/geoJSON'
 if not os.path.exists(saveDir): os.mkdir(saveDir)
 igcToGeoJSON(igc_path,saveDir)

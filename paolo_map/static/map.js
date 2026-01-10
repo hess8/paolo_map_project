@@ -52,3 +52,20 @@ async function render_markers() {
 
 map.on("moveend", render_markers);
 
+fetch('/static/links/wg_935824.json')
+    .then(response => response.json())
+    .then(data => {
+        // Create a GeoJSON layer with the loaded data and add it to the map
+        L.geoJSON(data, {
+            // Optional: Add styling or popups to features
+            onEachFeature: function (feature, layer) {
+                if (feature.properties && feature.properties.name) {
+                    layer.bindPopup(feature.properties.name);
+                }
+            }
+        }).addTo(map);
+    })
+    .catch(error => {
+        console.error('Error loading GeoJSON file:', error);
+    });
+
