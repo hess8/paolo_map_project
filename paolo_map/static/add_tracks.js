@@ -12,50 +12,32 @@ var geoJsonLayers = L.layerGroup().addTo(map);
 // Get the file input element
 document.getElementById('fileInput').addEventListener('change', handleFileSelect, false);
 
-function handleFileSelect(event) {
-    var files = event.target.files; // FileList object
-
-    // Clear previous layers if needed
-    geoJsonLayers.clearLayers();
-
-    for (var i = 0; i < files.length; i++) {
-        var file = files[i];
-        var reader = new FileReader();
-
-        // Closure to capture the file information
-        reader.onload = (function(theFile) {
-            return function(e) {
-                try {
-                    // Parse the GeoJSON data
-                    var geojsonData = JSON.parse(e.target.result);
-
-                    // Add GeoJSON layer to the map
-                    var layer = L.geoJSON(geojsonData, {
-                        onEachFeature: function (feature, layer) {
-                            // Optional: Bind a popup with properties
-                            if (feature.properties) {
-                                var popupContent = "<h3>" + (feature.properties.name || theFile.name) + "</h3>";
-                                for (var key in feature.properties) {
-                                    popupContent += "<b>" + key + "</b>: " + feature.properties[key] + "<br/>";
-                                }
-                                layer.bindPopup(popupContent);
-                            }
-                        }
-                    });
-
-                    geoJsonLayers.addLayer(layer); // Add to the layer group
-
-                    // Optional: Fit map bounds to the newly added layers
-                    // Note: This will fit to all current layers in geoJsonLayers group
-                    map.fitBounds(geoJsonLayers.getBounds());
-
-                } catch (err) {
-                    alert("Error parsing " + theFile.name + ": " + err);
+function addPolylinesFromFile(filename) {
+    fetch(filename)
+        .then(response => response.json())
+        .then(data => {
+            // L.geoJSON automatically handles multiple LineStrings in a FeatureCollection
+            L.geoJSON(data, {
+                style: function(feature) {
+                    // Use properties from the GeoJSON to style each polyline
+                    return {
+                        color: feature.properties.color || 'black', // Default to black
+                        weight: 4,
+                        opacity: 0.7
+                    };
+                },
+                onEachFeature: function(feature, layer) {
+                    // Add a popup with the name property
+                    if (feature.properties && feature.properties.name) {
+                        layer.bindPopup(feature.properties.name);
+                    }
                 }
-            };
-        })(file);
-
-        // Read the file as text
-        reader.readAsText(file);
-    }
+            }).addTo(map);
+        })
+        .catch(error => console.error('Error loading GeoJSON file:', error));
 }
+
+// Load multiple files
+addPolylinesFromFile('routes_group_a.geojson');
+addPolylinesFromFile('routes_group_b.geojson');
+// ... continue for each file

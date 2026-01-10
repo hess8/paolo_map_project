@@ -7,7 +7,7 @@ import sys
 import subprocess
 from datetime import datetime
 import re
-
+from numpy import array
 
 def readFileStrip(filename):
     if os.path.exists(filename):
@@ -194,6 +194,41 @@ def extract_igc_data(file_path):
         fixes
     """
     flight = Flight.create_from_file(file_path)
+    # if not Flight.valid:
+    #     print(f"Flight is invalid. Reasons: {Flight.notes}")
+    #     return None
+    # Extract raw data points (fixes)
+    # fixes_data = []
+    # for fix in flight.fixes:
+    #     fixes_data.append({
+    #         'timestamp': fix.timestamp,
+    #         'latitude': fix.lat,
+    #         'longitude': fix.lon,
+    #         'gps_altitude': fix.gps_alt,
+    #         'pressure_altitude': fix.press_alt,
+    #         'speed_kts': fix.speed_kts,
+    #         'climb_rate_fpm': fix.climb_rate_fpm,
+    #     })
+    # df = pd.DataFrame(fixes_data)
+    # df['timestamp'] = pd.to_datetime(df['timestamp'])  # Convert to datetime objects
+    # # Extract summary information
+    # summary = {
+    #     'takeoff_time': Flight.takeoff_fix.timestamp if Flight.takeoff_fix else 'N/A',
+    #     'landing_time': Flight.landing_fix.timestamp if Flight.landing_fix else 'N/A',
+    #     'duration_seconds': (
+    #                 Flight.landing_fix.timestamp - Flight.takeoff_fix.timestamp).total_seconds() if Flight.takeoff_fix and Flight.landing_fix else 'N/A',
+    #     'num_thermals': len(Flight.thermals),
+    #     'max_altitude_gps_m': Flight.max_altitude_gps_m,
+    #}
+    # return {'summary': summary, 'data_frame': df}
+
+    # except Exception as e:
+    #     print(f"An error occurred: {e}")
+    #     return None
     return flight.fixes
+
+def latlon(fix):
+    return array([fix['latitude'],fix['longitude']])
+
 
 
